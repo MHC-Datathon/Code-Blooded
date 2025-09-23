@@ -44,20 +44,32 @@ def label_period(df: pd.DataFrame) -> pd.DataFrame:
 def save_outputs(df: pd.DataFrame, output_dir: str):
     os.makedirs(output_dir, exist_ok=True)
 
+    # Columns to drop
+    columns_to_drop = [
+        "First Occurrence", "Last Occurrence",
+        "Stop ID", "Stop Name",
+        "Bus Stop Latitude", "Bus Stop Longitude", "Bus Stop Georeference",
+        "Violation ID"
+    ]
+
+    # Drop the columns (if they exist)
+    df_cleaned = df.drop(columns=columns_to_drop, errors="ignore")
+
     labeled_path = os.path.join(output_dir, "violations_with_period.csv")
     before_path = os.path.join(output_dir, "violations_before.csv")
     after_path = os.path.join(output_dir, "violations_after.csv")
 
     # Save labeled full dataset
-    df.drop(columns=["_parsed_date"], errors="ignore").to_csv(labeled_path, index=False)
+    df_cleaned.drop(columns=["_parsed_date"], errors="ignore").to_csv(labeled_path, index=False)
 
     # Save splits
-    df[df["period"] == "before"].drop(columns=["_parsed_date"], errors="ignore").to_csv(before_path, index=False)
-    df[df["period"] == "after"].drop(columns=["_parsed_date"], errors="ignore").to_csv(after_path, index=False)
+    df_cleaned[df_cleaned["period"] == "before"].drop(columns=["_parsed_date"], errors="ignore").to_csv(before_path, index=False)
+    df_cleaned[df_cleaned["period"] == "after"].drop(columns=["_parsed_date"], errors="ignore").to_csv(after_path, index=False)
 
     print(f"Wrote: {labeled_path}")
     print(f"Wrote: {before_path}")
     print(f"Wrote: {after_path}")
+
 
 
 def summarize(df: pd.DataFrame):

@@ -46,7 +46,6 @@ def save_outputs(df: pd.DataFrame, output_dir: str):
 
     # Columns to drop
     columns_to_drop = [
-        "First Occurrence", "Last Occurrence",
         "Stop ID", "Stop Name",
         "Bus Stop Latitude", "Bus Stop Longitude", "Bus Stop Georeference",
         "Violation ID"

@@ -30,7 +30,7 @@ def add_year_periods(df: pd.DataFrame) -> pd.DataFrame:
         if pd.isna(d):
             return None
         if d < THRESHOLD:
-            return str(d.year)  # 2019, 2020, ...
+            return str(d.year)
         else:
             return "after"
 
@@ -51,7 +51,6 @@ def monthly_trends(df: pd.DataFrame):
 
     avg_monthly_counts = monthly_counts.mean(axis=1)
 
-    # Order periods by year, with 'after' last
     ordered_index = sorted([p for p in avg_monthly_counts.index if p != "after"], key=int) + ["after"]
     avg_monthly_counts = avg_monthly_counts.reindex(ordered_index)
 
@@ -62,7 +61,6 @@ def monthly_trends(df: pd.DataFrame):
     plt.xlabel("Period")
     plt.ylabel("Average Number of Violations (per Month)")
     plt.xticks(rotation=45, ha="right")
-    # Custom legend
     plt.legend(handles=[
         plt.Rectangle((0,0),1,1,color="blue", label="Before (2019–2024)"),
         plt.Rectangle((0,0),1,1,color="orange", label="After (2025)")
@@ -90,15 +88,17 @@ def daily_trends(df: pd.DataFrame):
         .T
     )
 
-    # Build colors: distinct colors for years, orange for after
-    palette = plt.get_cmap("tab20").colors
     periods = daily_counts.columns.tolist()
-    colors = []
-    for i, p in enumerate(periods):
-        if p == "after":
-            colors.append("orange")
-        else:
-            colors.append(palette[i % len(palette)])
+    color_map = {
+        "2019": "royalblue",
+        "2020": "forestgreen",
+        "2021": "crimson",
+        "2022": "purple",
+        "2023": "gold",
+        "2024": "darkred",
+        "after": "orange"
+    }
+    colors = [color_map.get(p, "gray") for p in periods]
 
     daily_counts.plot(kind='bar', figsize=(14, 8), color=colors)
     plt.title("Average Monthly Violations by Day of Week (2019–2024 vs After)")
@@ -131,15 +131,17 @@ def violation_types_stacked(df: pd.DataFrame):
     """Plots most common violation types using monthly averages."""
     counts = get_monthly_counts_by_violation_type(df)
 
-    # Build colors: distinct colors for years, orange for after
-    palette = plt.get_cmap("tab20").colors
     periods = counts.columns.tolist()
-    colors = []
-    for i, p in enumerate(periods):
-        if p == "after":
-            colors.append("orange")
-        else:
-            colors.append(palette[i % len(palette)])
+    color_map = {
+        "2019": "royalblue",
+        "2020": "forestgreen",
+        "2021": "crimson",
+        "2022": "purple",
+        "2023": "gold",
+        "2024": "darkred",
+        "after": "orange"
+    }
+    colors = [color_map.get(p, "gray") for p in periods]
 
     counts.plot(kind='bar', stacked=True, figsize=(14, 8), color=colors)
     plt.title("Average Monthly Violations by Type (2019–2024 vs After)")
@@ -155,8 +157,6 @@ def violation_types_stacked(df: pd.DataFrame):
 def violation_type_changes(df: pd.DataFrame):
     """Plots grouped bar chart showing before (all years) vs after."""
     df["_month"] = df["_date"].dt.to_period("M")
-
-    # Collapse before into one group
     df["collapsed_period"] = df["period"].apply(lambda p: "before" if p != "after" else "after")
 
     monthly_violation_counts = (
@@ -177,37 +177,39 @@ def violation_type_changes(df: pd.DataFrame):
     plt.savefig(os.path.join("visuals", "violation_change_grouped_bar.png"))
     plt.close()
 
-    return avg_monthly_counts  # return for summary use
+    return avg_monthly_counts
 
 
 def cbd_vs_partial_comparison():
-    """Compares CBD vs Partial CBD buses with monthly averages."""
+    """Plots CBD and Partial CBD buses individually, collapsing years into 'before'."""
     df_always = add_year_periods(load_data(ALWAYS_CBD_PATH))
     df_partial = add_year_periods(load_data(PARTIAL_CBD_PATH))
 
-    def get_avg_monthly_by_period(df):
-        df["_month"] = df["_date"].dt.to_period("M")
-        total_counts = df.groupby("period", observed=False).size()
-        months_count = df.groupby("period", observed=False)["_month"].nunique()
-        return (total_counts / months_count).fillna(0)
+    df_all = pd.concat([df_always, df_partial], ignore_index=True)
+    df_all["_month"] = df_all["_date"].dt.to_period("M")
 
-    avg_monthly_always = get_avg_monthly_by_period(df_always)
-    avg_monthly_partial = get_avg_monthly_by_period(df_partial)
+    # Collapse years into before vs after
+    df_all["collapsed_period"] = df_all["period"].apply(lambda p: "before" if p != "after" else "after")
 
-    combined_df = pd.DataFrame({
-        "CBD Only": avg_monthly_always,
-        "Partial CBD": avg_monthly_partial
-    })
+    monthly_counts = (
+        df_all.dropna(subset=["_month"])
+        .groupby(["Bus Route ID", "collapsed_period", "_month"], observed=False)
+        .size()
+        .unstack(fill_value=0)
+    )
 
-    combined_df.plot(kind='bar', figsize=(12, 6), color=["blue", "orange"])
-    plt.title("Average Monthly Violations: CBD vs. Partial CBD (2019–2024 vs After)")
-    plt.xlabel("Period")
-    plt.ylabel("Average Number of Violations (per Month)")
+    avg_monthly_counts = monthly_counts.mean(axis=1).unstack(fill_value=0)
+
+    avg_monthly_counts[["before", "after"]].plot(kind='bar', figsize=(14, 8), color=["blue", "orange"])
+    plt.title("Average Monthly Violations by Bus (Before vs After Congestion Pricing)")
+    plt.xlabel("Bus Route ID")
+    plt.ylabel("Average Violations per Month")
     plt.xticks(rotation=45, ha="right")
-    plt.legend(title='Bus Group')
     plt.tight_layout()
     plt.savefig(os.path.join("visuals", "cbd_comparison_grouped_bar.png"))
     plt.close()
+
+    return avg_monthly_counts
 
 
 def generate_summary_file(df: pd.DataFrame):
@@ -216,7 +218,7 @@ def generate_summary_file(df: pd.DataFrame):
 
     df["_month"] = df["_date"].dt.to_period("M")
 
-    # 1. Overall frequency by period
+    # 1. Overall frequency
     violations_per_period = df.groupby("period", observed=False).size()
     months_per_period = df.groupby("period", observed=False)["_month"].nunique()
     avg_monthly = (violations_per_period / months_per_period).fillna(0)
@@ -229,7 +231,7 @@ def generate_summary_file(df: pd.DataFrame):
     count_before = counts.drop(columns=["after"], errors="ignore").mean(axis=1).max()
     count_after = counts["after"].max() if "after" in counts.columns else 0
 
-    # 3. Most increased/decreased (collapse years into "before")
+    # 3. Most increased/decreased
     df["collapsed_period"] = df["period"].apply(lambda p: "before" if p != "after" else "after")
     monthly_violation_counts = (
         df.dropna(subset=["_month"])
@@ -238,7 +240,6 @@ def generate_summary_file(df: pd.DataFrame):
         .unstack(fill_value=0)
     )
     avg_monthly_counts = monthly_violation_counts.mean(axis=1).unstack(fill_value=0)
-
     avg_monthly_counts["change"] = avg_monthly_counts["after"] - avg_monthly_counts["before"]
     avg_monthly_counts["percent_change"] = (avg_monthly_counts["change"] / avg_monthly_counts["before"]) * 100
 
@@ -252,6 +253,35 @@ def generate_summary_file(df: pd.DataFrame):
     decreased_before = avg_monthly_counts.loc[most_decreased, "before"]
     decreased_after = avg_monthly_counts.loc[most_decreased, "after"]
     percent_change_decreased = avg_monthly_counts.loc[most_decreased, "percent_change"]
+
+    # 4. CBD vs Partial CBD buses individually
+    df_always = add_year_periods(load_data(ALWAYS_CBD_PATH))
+    df_partial = add_year_periods(load_data(PARTIAL_CBD_PATH))
+    df_all = pd.concat([df_always, df_partial], ignore_index=True)
+    df_all["_month"] = df_all["_date"].dt.to_period("M")
+    df_all["collapsed_period"] = df_all["period"].apply(lambda p: "before" if p != "after" else "after")
+
+    bus_monthly_counts = (
+        df_all.dropna(subset=["_month"])
+        .groupby(["Bus Route ID", "collapsed_period", "_month"], observed=False)
+        .size()
+        .unstack(fill_value=0)
+    )
+    avg_bus_counts = bus_monthly_counts.mean(axis=1).unstack(fill_value=0)
+    avg_bus_counts["change"] = avg_bus_counts["after"] - avg_bus_counts["before"]
+
+    # Safe percent change (ignore buses with no before data)
+    avg_bus_counts["percent_change"] = np.where(
+        avg_bus_counts["before"] > 0,
+        (avg_bus_counts["change"] / avg_bus_counts["before"]) * 100,
+        np.nan
+    )
+
+    cbd_buses = ["M34+", "M42"]
+    partial_buses = ["M2", "M15+", "M4", "M101"]
+
+    cbd_avg_change = avg_bus_counts.loc[cbd_buses, "percent_change"].dropna().mean()
+    partial_avg_change = avg_bus_counts.loc[partial_buses, "percent_change"].dropna().mean()
 
     summary_text = f"""### Bus Violation Analysis for Congestion Pricing
 
@@ -281,6 +311,17 @@ It increased from {increased_before:.1f} → {increased_after:.1f}, a change of 
 "{most_decreased}" experienced the largest decrease.  
 It dropped from {decreased_before:.1f} → {decreased_after:.1f}, a change of {percent_change_decreased:+.1f}%.  
 This suggests the new policy may have had a positive impact on this specific behavior.
+
+---
+
+### 4. CBD vs Partial CBD Buses
+Individual bus percent changes (before → after, NaN = no before data):
+{avg_bus_counts[["before", "after", "percent_change"]].to_string()}
+
+On average, CBD-only buses (M34+, M42) changed by {cbd_avg_change:+.1f}%.  
+Partial-CBD buses (M2, M15+, M4, M101) changed by {partial_avg_change:+.1f}%.
+
+Conclusion: {"CBD-only buses increased more." if cbd_avg_change > partial_avg_change else "Partial-CBD buses increased more."}
 """
 
     with open(summary_path, "w", encoding="utf-8") as f:
@@ -290,7 +331,6 @@ This suggests the new policy may have had a positive impact on this specific beh
 
 
 def main():
-    """Main function to perform analysis and generate plots."""
     if not os.path.exists("visuals"):
         os.makedirs("visuals")
 

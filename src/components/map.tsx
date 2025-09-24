@@ -27,7 +27,7 @@ export default function NYCMap() {
 
       // 2. Add a heatmap layer
       map.addLayer({
-        id: "violations-heat",
+        id: "total-violations",
         type: "heatmap",
         source: "violations",
         minzoom: 5,   // show from zoom 0
@@ -59,6 +59,11 @@ export default function NYCMap() {
           ],
         },
       });
+
+
+
+
+      
     });
   }, []);
 

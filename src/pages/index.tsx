@@ -21,8 +21,6 @@ export default function Home() {
 
   const [type, setType] = useState("total")
 
-
-  console.log(type)
   return (
     <div className="relative w-full ">
       <NYCMap />

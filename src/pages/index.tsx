@@ -1,10 +1,12 @@
 import NYCMap from "@/components/map";
-import Slider from "@/components/slider";
+import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
+
+let months = ["June 2024", "July 2024", "August 2024", "September 2024", "October 2024", "November 2024", "December 2024", "January 2025", "February 2025", "March 2025", "April 2025", "May 2025", "June 2025", "July 2025", "August 2025"]
 
 export default function Home() {
 
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState([0])
   const [analysis, setAnalysis] = useState(false)
 
 
@@ -27,20 +29,19 @@ export default function Home() {
           )
         }
 
-      <div className="absolute bottom-45 text-2xl font-bold text-center left-1/2">
-        {value}
+      <div className="absolute bottom-30 font-bold text-center left-1/2 -translate-x-1/2 bg-black w-55 h-12 flex items-center justify-center rounded-full">
+        <span className="text-2xl text-white">
+          {months[value[0]]}
+        </span>
       </div>
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 bg-black text-white text-3xl px-4 py-2 rounded">
+      <div className="absolute bottom-10 left-1/2 h-10 -translate-x-1/2 -translate-y-1/2 w-1/3 bg-black text-white text-3xl px-4 py-2 rounded-full flex items-center ">
         
-        <input
-          type="range"
-          min="0"
-          max="12"
-          value={value}
-          onChange={(e) => setValue(Number(e.target.value))}
-          className="w-full accent-blue-600"
-        />
-        hello
+        <Slider
+        value={value}
+        onValueChange={setValue} // receives a number[] even for single thumb
+        max={14}
+        step={1}
+        className="w-full" />
       </div>
     </div>
   );

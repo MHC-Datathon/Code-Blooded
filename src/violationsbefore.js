@@ -13,10 +13,7 @@ csv()
           type: "Feature",
           properties: {
             last_occurrence: r["Last Occurrence"],
-            violation_status: r["Violation Status"],
             violation_type: r["Violation Type"],
-            period: r["period"],      // "before" / "after"
-            cbd_group: r["cbd_group"] // "always_cbd" / etc.
           },
           geometry: {
             type: "Point",

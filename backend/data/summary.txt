@@ -1,0 +1,25 @@
+### Bus Violation Analysis for Congestion Pricing
+
+The average number of violations per month was approximately 4119 before congestion pricing, which increased to approximately 24769 after the policy went into effect. This represents a significant overall increased in the monthly frequency of violations.
+
+---
+
+### Most Common Violation Types
+
+The most common violation type before congestion pricing was "MOBILE BUS LANE", with an average of 2378.69 violations per month. After the policy, the most common violation type was "MOBILE BUS STOP", with an average of 1367.49 violations per month.
+
+---
+
+### Violations with the Most Change
+
+The analysis of percentage change revealed significant shifts in specific violation types on a monthly basis:
+
+* The violation type that saw the most significant increase after congestion pricing was "MOBILE BUS STOP". The average number of monthly violations for this type increased from 849.65 to 1367.49, a change of approximately +60.9%.
+
+* "MOBILE BUS LANE" experienced the largest decrease. The average number of monthly violations for this type dropped from 2378.69 to 688.54, a change of approximately -71.1%. This suggests the new policy may have had a positive impact on this specific behavior.
+
+---
+
+### CBD vs. Partial CBD Bus Violations
+
+The analysis of monthly violation frequency revealed that buses that were always in the CBD increased. They experienced an average monthly violation count of 111 before congestion pricing, which changed to 758 after the policy. Buses that were only partially in the CBD also increased. They saw a change from 4027 to 24011 in their average monthly violations.

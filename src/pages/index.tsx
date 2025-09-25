@@ -2,6 +2,7 @@ import NYCMap from "@/components/map";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import { TypeSelect } from "@/components/ui/typeSelect";
+import { Switch } from "@/components/ui/switch";
 
 import { Jost } from 'next/font/google';
 
@@ -13,20 +14,29 @@ const font1 = Jost(
 );
 
 let months = ["June 2024", "July 2024", "August 2024", "September 2024", "October 2024", "November 2024", "December 2024", "January 2025", "February 2025", "March 2025", "April 2025", "May 2025", "June 2025", "July 2025", "August 2025"]
+let monthYear = ["06/2024", "07/2024", "08/2024", "09/2024", "10/2024", "11/2024", "12/2024", "01/2025", "02/2025", "03/2025", "04/2025", "05/2025", "06/2025", "07/2025", "08/2025"]
 
 export default function Home() {
 
   const [value, setValue] = useState([0])
   const [analysis, setAnalysis] = useState(false)
 
-  const [type, setType] = useState("total")
+  const [type, setType] = useState("MOBILE BUS LANE")
+  const [overlay, setOverlay] = useState(false)
 
   return (
     <div className="relative w-full ">
-      <NYCMap />
+      <NYCMap type={type} monthYear={monthYear[value[0]]} overlay={overlay}/>
       
-      <div className="absolute bottom-14 left-4 w-45 bg-black h-12 text-white rounded-full flex justify-center items-center">
+      <div className="absolute bottom-26 left-4 w-45 bg-black h-12 text-white rounded-full flex justify-center items-center">
         <TypeSelect value={type} onChange={setType} />
+      </div>
+
+      <div className="absolute bottom-12 left-4 w-70 gap-x-3 h-12 bg-black text-white rounded-full flex justify-center items-center">
+        <span className={`${font1.className}`}>Congestion pricing overlay</span> 
+        <Switch  
+        checked={overlay}
+        onCheckedChange={(checked) => setOverlay(checked)}/>
       </div>
       
       <div className="absolute top-4 right-4 ">
@@ -34,6 +44,7 @@ export default function Home() {
           <span className={`${font1.className} text-lg`}>Analysis ↓</span>
         </button>
       </div>
+      
       {
           analysis && (
             <div className="absolute top-16 right-4 text-lg w-50 h-50 bg-black text-white">

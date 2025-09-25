@@ -2,9 +2,9 @@ import type { NextConfig } from "next";
 
 const isProd = process.env.NODE_ENV === "production";
 
-const nextConfig: NextConfig = {
+const nextConfig = {
   reactStrictMode: true,
-  output: "export",                  // <-- new static export flag
+  output: "export",
   basePath: isProd ? "/Code-Blooded" : "",
   assetPrefix: isProd ? "/Code-Blooded/" : "",
 };

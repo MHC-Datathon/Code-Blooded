@@ -31,7 +31,7 @@ export default function NYCMap({ type, monthYear, overlay }: props) {
     map.on("load", () => {
       map.addSource("violations", {
           type: "geojson",
-          data: "/violations.geojson",
+          data: "./violations.geojson",
           generateId: true,
         });
 

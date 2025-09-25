@@ -32,6 +32,10 @@ export default function Home() {
         <TypeSelect value={type} onChange={setType} />
       </div>
 
+      <div className="absolute bottom-40 left-8 text-black rounded-full flex justify-center items-center">
+        <span className={`${font1.className} text-lg font-medium`}> Violation type:</span>
+      </div>
+
       <div className="absolute bottom-12 left-4 w-70 gap-x-3 h-12 bg-black text-white rounded-full flex justify-center items-center">
         <span className={`${font1.className}`}>Congestion pricing overlay</span> 
         <Switch  
@@ -47,8 +51,42 @@ export default function Home() {
       
       {
           analysis && (
-            <div className="absolute top-16 right-4 text-lg w-50 h-50 bg-black text-white">
-              info heredfdsf dsjf dsjhnf dsjnf jukdsnhfju dsj fsjufdshnjm fndsjmf hndsjmf hn
+            <div className="absolute p-5 mt-2 h-7/8 top-16 right-4 text-lg w-110 overflow-auto bg-black text-white rounded-2xl custom-scroll">
+              <span className={`${font1.className}`}>
+                <span className="flex justify-center text-2xl">Analysis:</span>
+
+                When congestion pricing began in Manhattan’s CBD in January 2025, the number of automated camera enforcement (ACE) violations jumped. Monthly averages went from about 6,000 to nearly 18,000. On the surface, that looks like a big spike.
+
+                But much of this increase came from the MTA rolling out more cameras in 2025. Routes like the M2 and M4 only started recording violations once cameras were installed, so their “increase” isn’t about worse behavior—it’s about new enforcement.
+
+                <br />
+
+                Bus lanes: Down over 70%—a clear sign that cameras discouraged drivers from using them.
+
+                <br />
+                Bus stops: Up 61%.
+
+                <br />
+                Double-parking: Up 52%.
+                This suggests fewer lane intrusions but more problems at curbs and bus stops.
+
+                <br />
+                Route Differences:
+
+                In CBD-only routes (M34+, M42), Violations dropped (−35.7%).
+
+                Partial-CBD routes (M2, M4, M15+, M101) exhibited mixed results. Some increased, but their numbers are skewed because of the date at which cameras were added.
+
+                <br />
+                <span className="flex justify-center text-xl">Takeaway:</span>
+                <br />
+
+                Violation counts are higher after congestion pricing, but that’s mostly due to expanded enforcement. The real behavioral change is that drivers are avoiding bus lanes while shifting to blocking stops and curbs instead.
+
+                <br />
+                <br />
+                We highly recommend reading our paper for a more in depth analysis <a className="text-blue-400 underline" href="/paper.pdf" target="_blank" rel="noopener noreferrer">Here</a>
+              </span>
             </div>
           )
         }

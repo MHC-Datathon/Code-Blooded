@@ -6,6 +6,14 @@ We built a **data analysis pipeline** (Python: pandas, numpy, matplotlib) and a 
 
 ---
 
+## 🎥 Project Video Overview
+Watch our project video overview below:
+https://www.youtube.com/watch?v=x-W0gc3OESs
+
+---
+
+---
+
 ## 📊 Project Overview
 
 **Challenge Question:**  
@@ -22,7 +30,7 @@ We built a **data analysis pipeline** (Python: pandas, numpy, matplotlib) and a 
   - CBD-only routes (M34+, M42) saw a **35.7% decrease**.  
   - Some Partial-CBD routes (M2, M4, M101, M15+) increased—but the effect is confounded by late camera installations.  
 
-📄 Read the full draft report in [`/docs`](./docs).  
+📄 Read the full draft report: [Datathon Research Paper (PDF)](./Datathon%20Research%20Paper.pdf)
 🌐 Explore visuals and analysis on the deployed website.
 
 ---
@@ -46,7 +54,7 @@ Clone the repository:
 
 
 ## 📂 Repository Structure
-
+```
 ├── backend/ # Python analysis pipeline
 │ ├── cleaning.py # Cleans raw violations data
 │ ├── analysis.py # Aggregates + generates figures
@@ -59,6 +67,7 @@ Clone the repository:
 │
 ├── docs/ # Draft report + supporting materials
 └── README.md
+```
 
 ---
 
@@ -76,7 +85,7 @@ Our workflow can be replicated in two steps:
 
 ## 📢 Team
 
-Team Code-Blooded – Maruf Azad, Aabid Dewan, Farjan Halim, Nahin Khan in the MTA Datathon 2025.
+Team Code-Blooded – Maruf Azad, Aabid Dewan, Farjan Halim, and Nahin Khan in the MTA Datathon 2025.
 Built with ❤️ using Python, Next.js, and far too many cups of coffee ☕.
 
 ## 📜 License

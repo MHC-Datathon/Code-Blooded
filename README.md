@@ -46,7 +46,7 @@ Clone the repository:
 
 
 ## 📂 Repository Structure
-
+'''
 ├── backend/ # Python analysis pipeline
 │ ├── cleaning.py # Cleans raw violations data
 │ ├── analysis.py # Aggregates + generates figures
@@ -59,7 +59,7 @@ Clone the repository:
 │
 ├── docs/ # Draft report + supporting materials
 └── README.md
-
+'''
 ---
 
 ## 🔄 Reproducibility

@@ -80,7 +80,7 @@ export default function NYCMap({ type, monthYear, overlay }: props) {
 
     // Preprocess features to add monthYear property
     
-    fetch("/violations.geojson")
+    fetch("https://mhc-datathon.github.io/Code-Blooded/violations.geojson")
       .then(res => res.json())
       .then((data: GeoJSON.FeatureCollection) => {
         data.features.forEach(f => {

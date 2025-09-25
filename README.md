@@ -1,40 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Code-Blooded · MTA Datathon 2025
 
-## Getting Started
+This repository contains our project submission for the **MTA Datathon 2025**, where we analyzed **Automated Camera Enforcement (ACE) bus-lane violations** in relation to the launch of **congestion pricing** in Manhattan’s Central Business District (CBD).  
 
-First, run the development server:
+We built a **data analysis pipeline** (Python: pandas, numpy, matplotlib) and a **presentation website** (Next.js, TypeScript) to communicate our findings.  
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📊 Project Overview
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+**Challenge Question:**  
+“Some automated camera-enforced routes travel within or cross Manhattan’s Central Business District. How have violations on these routes changed alongside the implementation of congestion pricing?”
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+**Key Findings:**
+- **Violations increased overall:** Average monthly ACE violations rose sharply after congestion pricing began in January 2025.  
+- **Camera rollout effect:** Much of this rise is explained by the **phased installation of new enforcement cameras** across routes in 2025.  
+- **Shift in violation types:**  
+  - Bus lane violations decreased by **71%** (showing cameras work for lanes).  
+  - Bus stop violations increased by **61%**.  
+  - Double-parked violations rose by **52%**.  
+- **Route-level results:**  
+  - CBD-only routes (M34+, M42) saw a **35.7% decrease**.  
+  - Some Partial-CBD routes (M2, M4, M101, M15+) increased—but the effect is confounded by late camera installations.  
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+📄 Read the full draft report in [`/docs`](./docs).  
+🌐 Explore visuals and analysis on the deployed website.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend Website:** [Next.js](https://nextjs.org), TypeScript, Tailwind CSS  
+- **Data Analysis:** Python (pandas, numpy, matplotlib)  
+- **Collaboration:** GitHub (issues, commits, version control)  
+- **Deployment:** [Vercel](https://vercel.com)  
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Getting Started
 
-## Deploy on Vercel
+Clone the repository:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    ```bash
+    git clone https://github.com/MHC-Datathon/Code-Blooded.git
+    cd Code-Blooded
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+
+## 📂 Repository Structure
+
+├── backend/ # Python analysis pipeline
+│ ├── cleaning.py # Cleans raw violations data
+│ ├── analysis.py # Aggregates + generates figures
+│ └── data/ # Input/output CSV files
+│
+├── frontend/ # Next.js website (presentation)
+│ ├── pages/ # Website pages
+│ ├── components/ # Reusable UI components
+│ └── public/ # Static assets (charts, visuals)
+│
+├── docs/ # Draft report + supporting materials
+└── README.md
+
+---
+
+## 🔄 Reproducibility
+
+Our workflow can be replicated in two steps:
+
+1. **Data Cleaning:**  
+   ```bash
+   python backend/cleaning.py
+
+2. **Analysis & Figures**  
+   ```bash
+   python backend/analysis.py
+
+## 📢 Team
+
+Team Code-Blooded – Maruf Azad, Aabid Dewan, Farjan Halim, Nahin Khan in the MTA Datathon 2025.
+Built with ❤️ using Python, Next.js, and far too many cups of coffee ☕.
+
+## 📜 License
+
+This project is open-source and available under the [MIT License](./LICENSE).

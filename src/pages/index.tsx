@@ -85,7 +85,7 @@ export default function Home() {
 
                 <br />
                 <br />
-                We highly recommend reading our paper for a more in depth analysis <a className="text-blue-400 underline" href="/paper.pdf" target="_blank" rel="noopener noreferrer">Here</a>
+                We highly recommend reading our paper for a more in depth analysis <a className="text-blue-400 underline" href="./paper.pdf" target="_blank" rel="noopener noreferrer">Here</a>
               </span>
             </div>
           )

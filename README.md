@@ -12,8 +12,6 @@ https://www.youtube.com/watch?v=x-W0gc3OESs
 
 ---
 
----
-
 ## 📊 Project Overview
 
 **Challenge Question:**  

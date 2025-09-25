@@ -40,9 +40,10 @@ We built a **data analysis pipeline** (Python: pandas, numpy, matplotlib) and a 
 
 Clone the repository:
 
-```bash
-git clone https://github.com/MHC-Datathon/Code-Blooded.git
-cd Code-Blooded
+    ```bash
+    git clone https://github.com/MHC-Datathon/Code-Blooded.git
+    cd Code-Blooded
+
 
 ## 📂 Repository Structure
 

@@ -43,7 +43,6 @@ https://mhc-datathon.github.io/Code-Blooded/
 - **Frontend Website:** [Next.js](https://nextjs.org), TypeScript, Tailwind CSS  
 - **Data Analysis:** Python (pandas, numpy, matplotlib)  
 - **Collaboration:** GitHub (issues, commits, version control)  
-- **Deployment:** [Vercel](https://vercel.com)  
 
 ---
 

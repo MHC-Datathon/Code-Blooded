@@ -88,7 +88,6 @@ Our workflow can be replicated in two steps:
 ## 📢 Team
 
 Team Code-Blooded – Maruf Azad, Aabid Dewan, Farjan Halim, and Nahin Khan in the MTA Datathon 2025.
-Built with ❤️ using Python, Next.js, and far too many cups of coffee ☕.
 
 ## 📜 License
 
